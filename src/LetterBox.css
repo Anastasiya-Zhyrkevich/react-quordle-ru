@@ -1,0 +1,23 @@
+.LetterBox {
+  border-width: 2px;
+
+  width: 10px;
+  height: 10px;
+  margin: 2px;
+}
+
+.basic {
+  background-color: lightcyan;
+}
+
+.not-in-the-place {
+  background-color: yellow;
+}
+
+.in-the-place {
+  background-color: greenyellow;
+}
+
+.unknown {
+  background-color: red;
+}

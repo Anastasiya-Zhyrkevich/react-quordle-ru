@@ -4,6 +4,7 @@ import allWords from './5-letters.json';
 import _ from 'underscore';
 
 import Field from './Field.js';
+import InputField from './InputField.js';
 
 
 const SAMPLES_CNT = 4;
@@ -16,7 +17,8 @@ export default class Game extends React.Component {
     this.startNewGame = this.startNewGame.bind(this);
     this.state = {
       in_progress: false,
-      words: []
+      words: [],
+      attempts: Array(ATTEMPTS).fill('')
     };
   }
 
@@ -37,7 +39,8 @@ export default class Game extends React.Component {
       game = (
         <div>
           <div>Game has been started</div>
-          <Field words={this.state.words} attempts={ATTEMPTS}/>
+          <Field words={this.state.words} attempt_words={this.state.attempts}/>
+          <InputField spots_cnt={this.state.words[0].length}/>
         </div>
       );
     }

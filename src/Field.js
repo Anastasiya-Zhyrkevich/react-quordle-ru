@@ -8,7 +8,7 @@ export default class Field extends React.Component {
 
     return (
       <div>
-        {this.props.words.map(word => (<WordBox key={word} word={word}/>))}
+        {this.props.words.map(word => (<WordBox key={word} base_word={word} attempt_words={this.props.attempt_words} />))}
       </div>
     );
   }
