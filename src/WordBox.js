@@ -11,6 +11,14 @@ export default class WordBox extends React.Component {
       Array(this.props.attempt_cnt - valid_attempt_cnt).fill('')
     );
 
+    if (valid_attempt_cnt !== this.props.attempt_cnt) {
+      let current_word = this.props.current_word;
+      while (current_word.length !== this.props.base_word.length) {
+        current_word += ' ';
+      }
+      additional_attempt_words[valid_attempt_cnt] = current_word;
+    }
+
     return (
       <div className="WordBox">
         {
