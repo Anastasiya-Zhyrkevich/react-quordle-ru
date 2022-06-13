@@ -1,9 +1,11 @@
 .WordBox {
   border: 2px solid red;
 
-  display: flex;
   margin: 2px;
 
   flex-grow: 1;
   width: 50%;
+
+  flex-basis: 45%;
+
 }
