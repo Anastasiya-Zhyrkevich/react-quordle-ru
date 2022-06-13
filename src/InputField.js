@@ -14,6 +14,10 @@ export default class InputField extends React.Component {
     if (event.target.value.length > this.props.slots_cnt) {
       return;
     }
+    if (!/^[а-я]*$/.test(event.target.value)) {
+      return;
+    }
+
     this.setState({value: event.target.value});
     this.props.onTypingInputWord(event.target.value);
   }
