@@ -32,27 +32,39 @@ export default class WordRow extends React.Component {
     return BASIC;
   }
 
+  generateLetters(word, getStatusFunc) {
+    return (
+      <div className="WordRow">
+      {Array.from(word).map(
+        (letter, ind) => <LetterBox key={ind} letter={letter} status={getStatusFunc(letter, ind)}/>
+      )}
+      </div>
+    );
+  }
+
   render() {
-    // console.log("WordRow", this.props.base_word, this.props.word);
 
     // Empty Row
-    if (this.props.word.length === 0 || this.props.is_active) {
-      return (
-        <div className="WordRow">
-          {Array.from(this.props.base_word).map((letter, i) => <LetterBox key={i} letter='' status={BASIC}/>)}
-        </div>
+    if (this.props.word.length === 0) {
+      return this.generateLetters(
+        ' '.repeat(this.props.base_word.length),
+        (l, i) => BASIC
+      );
+    }
+
+    // Active Row
+    if (this.props.is_active) {
+      return this.generateLetters(
+        this.props.word,
+        (l, i) => BASIC
       );
     }
 
     // Full Row
-    return (
-      <div className="WordRow">
-        {
-          Array.from(this.props.word).map(
-            (letter, ind) => <LetterBox key={ind} letter={letter} status={this.getStatus(letter, ind, this.props.base_word)}/>
-          )
-        }
-      </div>
+    return this.generateLetters(
+      this.props.word,
+      (letter, ind) => this.getStatus(letter, ind, this.props.base_word)
     );
+
   }
 }
