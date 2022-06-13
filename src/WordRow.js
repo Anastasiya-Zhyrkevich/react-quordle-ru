@@ -36,7 +36,7 @@ export default class WordRow extends React.Component {
     // console.log("WordRow", this.props.base_word, this.props.word);
 
     // Empty Row
-    if (this.props.word.length === 0) {
+    if (this.props.word.length === 0 || this.props.is_active) {
       return (
         <div className="WordRow">
           {Array.from(this.props.base_word).map((letter, i) => <LetterBox key={i} letter='' status={BASIC}/>)}
