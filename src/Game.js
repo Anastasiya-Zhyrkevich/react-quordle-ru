@@ -22,9 +22,8 @@ export default class Game extends React.Component {
     this.state = {
       in_progress: false,
       words: [],
-      attempts: Array(ATTEMPTS).fill(''),
-      current_word: '',
-      currrent_ind: 0
+      attempts: [],
+      current_word: ''
     };
   }
 
@@ -38,32 +37,26 @@ export default class Game extends React.Component {
   }
 
   typingCurrentWord(word) {
-    console.log('typingCurrentWord');
+    // console.log('typingCurrentWord');
     this.setState({current_word: word});
   }
 
   submitCurrentWord(word) {
-    console.log('submitCurrentWord');
-
-    let attempts = this.state.attempts;
-    attempts[this.state.current_ind] = word;
-
-    this.setState({
-      attempts,
-      current_ind: this.state.current_ind + 1,
+    this.setState(prevState => ({
+      attempts: [...prevState.attempts, word],
       current_word: ''
-    });
+    }));
   }
 
   render() {
     let game = <div/>;
-    console.log('Game render');
+    // console.log('Game render attempts=', this.state.attempts);
 
     if (this.state.in_progress) {
       game = (
         <div>
           <div>Game has been started</div>
-          <Field words={this.state.words} attempt_words={this.state.attempts}/>
+          <Field words={this.state.words} attempt_words={this.state.attempts} attempt_cnt={ATTEMPTS}/>
           <InputField
             onTypingInputWord={this.typingCurrentWord}
             onSubmitInputWord={this.submitCurrentWord}

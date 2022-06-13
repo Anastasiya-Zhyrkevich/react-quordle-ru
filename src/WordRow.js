@@ -33,6 +33,8 @@ export default class WordRow extends React.Component {
   }
 
   render() {
+    // console.log("WordRow", this.props.base_word, this.props.word);
+
     // Empty Row
     if (this.props.word.length === 0) {
       return (
