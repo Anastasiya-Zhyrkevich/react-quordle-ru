@@ -1,0 +1,9 @@
+.CorrectAnswer {
+  border-width: 2px;
+  display: flex;
+  justify-content: center;
+}
+
+.CorrectAnswerItem {
+  margin: 10px;
+}

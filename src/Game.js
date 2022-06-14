@@ -5,11 +5,18 @@ import _ from 'underscore';
 
 import Field from './Field.js';
 import InputField from './InputField.js';
+import CorrectAnswer from './CorrectAnswer.js';
 
 
 const WORD_LENGTH = 5;
 const BOXES_CNT = 4;
 const ATTEMPTS = 7;
+
+const States = {
+  NOT_STARTED: 0,
+  IN_RROGRESS: 1,
+  IS_OVER: 2
+};
 
 
 export default class Game extends React.Component {
@@ -20,7 +27,7 @@ export default class Game extends React.Component {
     this.submitCurrentWord = this.submitCurrentWord.bind(this);
 
     this.state = {
-      in_progress: false,
+      progress: States.NOT_STARTED,
       words: [],
       attempts: [],
       current_word: ''
@@ -31,7 +38,7 @@ export default class Game extends React.Component {
     let words = _.sample(allWords, BOXES_CNT);
     console.log(words);
     this.setState({
-      in_progress: true,
+      progress: States.IN_PROGRESS,
       words,
       attempts: [],
       current_word: ''
@@ -39,49 +46,69 @@ export default class Game extends React.Component {
   }
 
   typingCurrentWord(word) {
-    if (!this.state.in_progress) {
+    if (this.state.progress !== States.IN_PROGRESS) {
       return;
     }
     this.setState({current_word: word});
   }
 
   submitCurrentWord(word) {
-    if (!this.state.in_progress) {
+    if (this.state.progress !== States.IN_PROGRESS) {
       return;
     }
 
+    let progress = States.IN_PROGRESS;
+    if (this.state.attempts.length + 1 === ATTEMPTS) {
+      progress = States.IS_OVER;
+    }
     this.setState(prevState => ({
+      progress,
       attempts: [...prevState.attempts, word],
       current_word: ''
     }));
   }
 
   render() {
-    let game = <div/>;
-
-    if (this.state.in_progress) {
-      game = (
+    if (this.state.progress === States.NOT_STARTED) {
+      return (
         <div>
-          <div>Game has been started</div>
-          <Field
-            words={this.state.words}
-            attempt_words={this.state.attempts}
-            attempt_cnt={ATTEMPTS}
-            current_word={this.state.current_word}
-          />
-          <InputField
-            onTypingInputWord={this.typingCurrentWord}
-            onSubmitInputWord={this.submitCurrentWord}
-            slots_cnt={WORD_LENGTH}
-          />
+          <button onClick={this.startNewGame}>New game</button>
         </div>
       );
+    }
+
+    let game = (
+      <div>
+        <div>Game has been started</div>
+        <Field
+          words={this.state.words}
+          attempt_words={this.state.attempts}
+          attempt_cnt={ATTEMPTS}
+          current_word={this.state.current_word}
+        />
+        <InputField
+          onTypingInputWord={this.typingCurrentWord}
+          onSubmitInputWord={this.submitCurrentWord}
+          slots_cnt={WORD_LENGTH}
+        />
+      </div>
+    );
+
+    if (this.state.progress === States.IN_PROGRESS) {
+      return (
+        <div>
+          <button onClick={this.startNewGame}>New game</button>
+          {game}
+        </div>
+      );
+
     }
 
     return (
       <div>
         <button onClick={this.startNewGame}>New game</button>
         {game}
+        <CorrectAnswer words={this.state.words}/>
       </div>
     );
   }
