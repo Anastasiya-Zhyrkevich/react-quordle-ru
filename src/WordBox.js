@@ -2,15 +2,27 @@ import React from 'react';
 import WordRow from './WordRow.js';
 import './WordBox.css';
 
-export default class WordBox extends React.Component {
-  render() {
-    // console.log("WordBox", this.props.attempt_words);
+const INVALID_IND = -1;
 
+
+export default class WordBox extends React.Component {
+
+  getCorrectInd(words, base_word) {
+    for (let i = 0; i < words.length; i++) {
+      if (words[i] === base_word) {
+        return i;
+      }
+    }
+
+    return INVALID_IND;
+  }
+
+  render() {
     let valid_attempt_cnt = this.props.attempt_words.length;
     let additional_attempt_words = this.props.attempt_words.concat(
       Array(this.props.attempt_cnt - valid_attempt_cnt).fill('')
     );
-    let active_word_ind = -1;
+    let active_word_ind = INVALID_IND;
 
     if (valid_attempt_cnt !== this.props.attempt_cnt) {
       let current_word = this.props.current_word;
@@ -19,6 +31,14 @@ export default class WordBox extends React.Component {
       }
       additional_attempt_words[valid_attempt_cnt] = current_word;
       active_word_ind = valid_attempt_cnt;
+    }
+
+    // Clear after correct word
+    const correct_ind = this.getCorrectInd(additional_attempt_words, this.props.base_word);
+    if (correct_ind !== INVALID_IND) {
+      for (let i = correct_ind + 1; i < this.props.attempt_cnt; i++) {
+        additional_attempt_words[i] = '';
+      }
     }
 
     return (

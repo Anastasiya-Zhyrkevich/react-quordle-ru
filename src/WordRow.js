@@ -15,7 +15,6 @@ export default class WordRow extends React.Component {
     this.getStatus = this.getStatus.bind(this);
   }
 
-
   getStatus(letter, ind, expectedWord) {
     if (ind < 0 && ind >= expectedWord.length) {
       return UNKNOWN;
@@ -60,7 +59,7 @@ export default class WordRow extends React.Component {
       );
     }
 
-    // Full Row
+    // Word Row (Full row)
     return this.generateLetters(
       this.props.word,
       (letter, ind) => this.getStatus(letter, ind, this.props.base_word)
