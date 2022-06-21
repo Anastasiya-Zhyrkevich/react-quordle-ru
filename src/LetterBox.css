@@ -13,6 +13,11 @@
   background-color: lightcyan;
 }
 
+.incorrect {
+  background-color: lightcyan;
+  color: red;
+}
+
 .not-in-the-place {
   background-color: yellow;
 }

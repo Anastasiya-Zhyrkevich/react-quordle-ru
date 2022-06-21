@@ -6,6 +6,7 @@ import './WordRow.css';
 const BASIC = 'basic';
 const NOT_IN_THE_PLACE = 'not-in-the-place';
 const IN_THE_PLACE = 'in-the-place';
+const INCORRECT = 'incorrect';
 const UNKNOWN = 'unknown';
 
 
@@ -53,6 +54,14 @@ export default class WordRow extends React.Component {
 
     // Active Row
     if (this.props.is_active) {
+      // if not valid word with all letters
+      if (!this.props.is_current_word_valid && this.props.word.indexOf(' ') === -1) {
+        return this.generateLetters(
+          this.props.word,
+          (l, i) => INCORRECT
+        );
+      }
+
       return this.generateLetters(
         this.props.word,
         (l, i) => BASIC

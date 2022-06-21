@@ -28,8 +28,10 @@ export default class InputField extends React.Component {
       return;
     }
 
-    this.props.onSubmitInputWord(this.state.value);
-    this.setState({value: ''});
+    const ret = this.props.onSubmitInputWord(this.state.value);
+    if (ret) {
+      this.setState({value: ''});
+    }
   }
 
 

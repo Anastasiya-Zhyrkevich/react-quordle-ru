@@ -15,6 +15,7 @@ export default class Field extends React.Component {
             attempt_words={this.props.attempt_words}
             attempt_cnt={this.props.attempt_cnt}
             current_word={this.props.current_word}
+            is_current_word_valid={this.props.is_current_word_valid}
           />
         ))}
       </div>

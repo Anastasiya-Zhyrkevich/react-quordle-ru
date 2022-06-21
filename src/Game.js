@@ -30,7 +30,8 @@ export default class Game extends React.Component {
       progress: States.NOT_STARTED,
       words: [],
       attempts: [],
-      current_word: ''
+      current_word: '',
+      is_current_word_valid: false
     };
   }
 
@@ -41,20 +42,33 @@ export default class Game extends React.Component {
       progress: States.IN_PROGRESS,
       words,
       attempts: [],
-      current_word: ''
+      current_word: '',
+      is_current_word_valid: false
     });
+  }
+
+  isValidWord(word) {
+    return allWords.includes(word);
   }
 
   typingCurrentWord(word) {
     if (this.state.progress !== States.IN_PROGRESS) {
       return;
     }
-    this.setState({current_word: word});
+
+    this.setState({
+      current_word: word,
+      is_current_word_valid: this.isValidWord(word)
+    });
   }
 
   submitCurrentWord(word) {
     if (this.state.progress !== States.IN_PROGRESS) {
-      return;
+      return false;
+    }
+
+    if (!this.isValidWord(word)) {  // Impossible to submit invalid word
+      return false;
     }
 
     let progress = States.IN_PROGRESS;
@@ -66,6 +80,7 @@ export default class Game extends React.Component {
       attempts: [...prevState.attempts, word],
       current_word: ''
     }));
+    return true;
   }
 
   render() {
@@ -85,6 +100,7 @@ export default class Game extends React.Component {
           attempt_words={this.state.attempts}
           attempt_cnt={ATTEMPTS}
           current_word={this.state.current_word}
+          is_current_word_valid={this.state.is_current_word_valid}
         />
         <InputField
           onTypingInputWord={this.typingCurrentWord}

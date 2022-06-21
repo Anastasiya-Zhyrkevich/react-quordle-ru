@@ -51,6 +51,7 @@ export default class WordBox extends React.Component {
                 word={attempt_word}
                 base_word={this.props.base_word}
                 is_active={active_word_ind === i}
+                is_current_word_valid={this.props.is_current_word_valid}
               />
           )
         }
