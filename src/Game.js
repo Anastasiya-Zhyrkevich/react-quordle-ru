@@ -92,9 +92,14 @@ export default class Game extends React.Component {
       );
     }
 
+    let title = 'Game has been started';
+    if (this.state.progress === States.IS_OVER) {
+      title = 'Game is over';
+    }
+
     let game = (
       <div>
-        <div>Game has been started</div>
+        <div>{title}</div>
         <Field
           words={this.state.words}
           attempt_words={this.state.attempts}
